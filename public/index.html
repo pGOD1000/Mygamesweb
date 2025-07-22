@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameIdeasBroughtToLife</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+    header {
+      background-color: #1f1f1f;
+      padding: 1em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+    nav {
+      display: none;
+      flex-direction: column;
+      background-color: #1f1f1f;
+      position: absolute;
+      top: 60px;
+      right: 10px;
+      border: 1px solid #333;
+      border-radius: 5px;
+    }
+    nav a {
+      padding: 1em;
+      color: #f0f0f0;
+      text-decoration: none;
+    }
+    nav a:hover {
+      background-color: #333;
+    }
+    .menu-icon {
+      cursor: pointer;
+      font-size: 1.5em;
+    }
+    section {
+      padding: 2em;
+    }
+    .download-button {
+      padding: 1em 2em;
+      font-size: 1em;
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .download-button:hover {
+      background-color: #1976d2;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">GameIdeasBroughtToLife</div>
+    <div class="menu-icon" onclick="toggleMenu()">&#9776;</div>
+    <nav id="menu">
+      <a href="#download">Download</a>
+      <a href="#forum">Forum</a>
+      <a href="#about">About Us</a>
+    </nav>
+  </header>
+
+  <section id="download">
+    <h2>Download Soldier Parkour Game</h2>
+    <a class="download-button" href="C:\Users\Microsoft\Desktop\Soldier attack FPS Game website\Fortnite Demo\Soldier Parkour Game.exe" download="C:\Users\Microsoft\Desktop\Soldier attack FPS Game website\Fortnite Demo\Soldier Parkour Game.exe">Download Game</a>
+  </section>
+
+  <section id="forum">
+    <h2>Forum</h2>
+    <form id="forumForm">
+      <input type="text" id="username" placeholder="Your name" required><br><br>
+      <textarea id="message" placeholder="Your message" required></textarea><br><br>
+      <button type="submit">Post</button>
+    </form>
+    <div id="posts"></div>
+  </section>
+
+  <section id="about">
+    <h2>About Us</h2>
+    <p>We bring cool game ideas to life for kids and creative minds. Whether it's FPS, parkour, or open-world games—we aim to inspire fun, friendship, and imagination!</p>
+  </section>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    }
+
+    // Simple fetch to post forum data
+    document.getElementById("forumForm").addEventListener("submit", async function(event) {
+      event.preventDefault();
+      const username = document.getElementById("username").value;
+      const message = document.getElementById("message").value;
+
+      const res = await fetch("/forum-post", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, message })
+      });
+
+      const post = await res.json();
+      const postDiv = document.createElement("div");
+      postDiv.textContent = `${post.username}: ${post.message}`;
+      document.getElementById("posts").appendChild(postDiv);
+      document.getElementById("forumForm").reset();
+    });
+  </script>
+</body>
+</html>
